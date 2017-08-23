@@ -2,6 +2,16 @@
   @import "../resources/css/reset.less";
   @import "../resources/css/color.less";
   @import "../resources/css/base.less";
+
+  [header]{
+    .mint-popup{
+      width:100%;
+      position: fixed;
+      left:0;
+      top:0;
+    }
+  }
+
 </style>
 <template>
   <div header>
@@ -20,15 +30,15 @@
       <!--左侧登录div-->
       <div class="main-nav-wrapper sidenav">
         <div class="user-box clearfix">
-          <img class="portrait" src="../resources/images/lion_logo2.png" alt="">
+          <img class="portrait" src="../resources/images/user/por_icon.png" alt="">
           <div class="user_name tc mb20">用户名</div>
           <div class="ys_function tc">
-            <a href="javascript:;">房源列表</a>
+            <router-link :to="{path:'/list2'}" id="first_list_link">房源列表</router-link>
             <a href="javascript:;">房源信息采集</a>
             <a href="javascript:;">待办任务</a>
           </div>
         </div>
-        <a href="javascript:;" class="log_out_btn">退出登录</a>
+        <a href="javascript:;" class="log_out_btn" @click="login_out">退出登录</a>
       </div>
     </mt-popup>
   </div>
@@ -43,8 +53,7 @@
       };
     },
     methods: {
-
-      showMenu: function () {
+      showMenu() {
         this.popupVisible = true;
         var wwd = $("#section").width();
         if (!wwd) {
@@ -62,6 +71,7 @@
           top: "0px",
           left: "0px"
         });
+
         $(".sidenav").css("left", "-100%");
         $(".sidenav").show();
         $("#zhezhao").animate({
@@ -70,6 +80,11 @@
         $("#zhezhao").animate({
           backgroundColor: "#000000"
         }, 150);
+
+        $(".sidenav").css({
+          height:$(window).height()
+        });
+
         $(".sidenav").animate({
           left: "0"
         }, 150, function () {
@@ -102,12 +117,19 @@
           left: "75%"
         }, 150);
 
+      },
+
+      login_out(){
+        $("#zhezhao").remove();
+          this.$router.push({path:'/login'});
       }
 
     },
     mounted: function () {
       var _this = this;
-
+      $('#first_list_link').click(function(){
+        $("#zhezhao").remove();
+      });
     }
   };
 </script>
